@@ -19,10 +19,21 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Ordnerstruktur im Log anzeigen (Fehlersuche)
+        run: |
+          echo "=== Dateien im Repository ==="
+          find . -maxdepth 3 -not -path '*/.*'
+
       - name: Plugin mit Maven bauen
         run: |
-          POM_FILE=$(find . -name "pom.xml" -print -quit)
-          echo "Gefundene pom.xml: $POM_FILE"
+          POM_FILE=$(find . -iname "pom.xml" -print -quit)
+          
+          if [ -z "$POM_FILE" ]; then
+            echo "CRITICAL ERROR: Keine pom.xml im gesamten Repository gefunden!"
+            exit 1
+          fi
+          
+          echo "Gefundene POM-Datei: $POM_FILE"
           mvn clean package --batch-mode -f "$POM_FILE"
 
       - name: Fertige JAR-Datei als Artifact bereitstellen
