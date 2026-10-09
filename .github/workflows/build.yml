@@ -1,0 +1,30 @@
+name: Build Minecraft Plugin (Paper 1.26.3)
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: Java 21 einrichten
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Plugin mit Maven bauen
+        run: mvn clean package --batch-mode
+
+      - name: Fertige JAR-Datei als Artifact bereitstellen
+        uses: actions/upload-artifact@v4
+        with:
+          name: Crates-Plugin-1.26.3
+          path: target/*.jar
