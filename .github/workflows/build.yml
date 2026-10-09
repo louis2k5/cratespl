@@ -18,10 +18,12 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven
 
       - name: Plugin mit Maven bauen
-        run: mvn clean package --batch-mode -f $(find . -name pom.xml -first)
+        run: |
+          POM_FILE=$(find . -name "pom.xml" -print -quit)
+          echo "Gefundene pom.xml: $POM_FILE"
+          mvn clean package --batch-mode -f "$POM_FILE"
 
       - name: Fertige JAR-Datei als Artifact bereitstellen
         uses: actions/upload-artifact@v4
