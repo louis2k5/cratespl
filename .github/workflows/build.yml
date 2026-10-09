@@ -19,17 +19,12 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
-          mvnd-version: ''
-          # Falls die pom.xml im Unterordner Crates-source liegt:
-          cache-dependency-path: '**/pom.xml'
 
       - name: Plugin mit Maven bauen
-        run: mvn clean package --batch-mode
-        # Hier wird Maven im richtigen Unterordner ausgeführt:
-        working-directory: ./Crates-source
+        run: mvn clean package --batch-mode -f $(find . -name pom.xml -first)
 
       - name: Fertige JAR-Datei als Artifact bereitstellen
         uses: actions/upload-artifact@v4
         with:
           name: Crates-Plugin-1.26.3
-          path: /**/target/*.jar
+          path: "**/target/*.jar"
