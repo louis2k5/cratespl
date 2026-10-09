@@ -1,0 +1,61 @@
+CRATES 1.0.0  -  Kurzanleitung
+==============================
+
+INSTALLATION
+  1. Crates-1.0.0.jar in den plugins-Ordner legen.
+  2. Die alte ScoreboardPL-jar aus dem plugins-Ordner loeschen und dafuer
+     ScoreboardPL-1.5.0-KeyAll.jar hineinlegen (deine config.yml bleibt wie sie ist).
+  3. Server neu starten.
+
+EINE CRATE EINRICHTEN
+  /crate create vip          Crate anlegen, das Einstellungs-Menue oeffnet sich
+  im Menue:                  Name, Key-Name, Farbe, Items (max. 30), Chancen,
+                             Oeffnungs-Animation, Partikel, Sound
+  /crate place vip           gibt dir die Shulker-Box; hinstellen = Crate schwebt dort
+  Schleichen + Linksklick    entfernt eine platzierte Crate wieder (nur Admins)
+  /crate gui                 alle Crates, Klick oeffnet die Einstellungen
+  /crate delete vip          Crate loeschen (fragt einmal nach)
+
+  Chancen: 1-100. 100 = kommt sehr oft, 1 = fast nie. Spieler sehen nur die Seltenheit:
+    100-80 Common   79-60 Rare   59-40 Superrare   39-20 Epic   19-8 Legendary   7-1 Mythic
+
+KEYS
+  /crate key vip [Anzahl] [Spieler|all]    Keys vergeben (geht auch aus der Konsole)
+  /key vip                                 Gratis-Key fuer Spieler, 48 Stunden Cooldown
+  /crate resetcooldown <Spieler> [Crate]   Cooldown von /key zuruecksetzen
+
+KEY ALL
+  /crate keyall add vip      Key hinzufuegen (vorher laesst sich Key All nicht starten)
+  /crate keyall start        starten bzw. fortsetzen
+  /crate keyall stop         pausieren
+  /crate keyall status       Stand anzeigen
+  /crate keyall remove vip   Key wieder herausnehmen
+  /crate keyall now          sofort an alle verteilen (Timer bleibt)
+  /crate keyall reset        Timer wieder auf eine volle Stunde
+
+PERMISSIONS
+  crates.admin               /crate, das Menue, Crates platzieren und entfernen (OPs haben sie)
+  crates.key.<name>          /key <name>  - wird fuer jede Crate automatisch angelegt,
+                             z.B. crates.key.vip   (LuckPerms: /lp group vip permission set crates.key.vip true)
+  crates.key.*               /key fuer alle Crates
+  crates.bypass.cooldown     /key ohne Cooldown (hat niemand automatisch, auch OPs nicht)
+
+SCOREBOARD
+  Mit beiden Plugins erscheint die Zeile "Key all: <Timer>" bzw. "Key all: paused" von selbst,
+  ueber deiner letzten Scoreboard-Zeile. Zum Anpassen diesen Block in
+  plugins/ScoreboardPL/config.yml einfuegen und /scoreboard reload:
+
+    key-all:
+      running: "&e%timer%"
+      paused: "&cpaused"
+      auto-line:
+        enabled: true
+        text: " &7Key all&8: %keyall%"
+        position: -2        # 1 = erste Zeile, -1 = letzte Zeile, -2 = ueber der letzten
+
+  Oder du schreibst %keyall% selbst in eine deiner Zeilen, dann steht sie genau dort.
+  Hat dein Scoreboard schon 15 Zeilen, wird keine weitere angehaengt.
+
+EINSTELLUNGEN
+  plugins/Crates/config.yml  (danach /crate reload): Schwebehoehe, Drehgeschwindigkeit,
+  Dauer der Oeffnung (6-12 s), Cooldowns, Key-All-Intervall, Text des Nethersterns ...
